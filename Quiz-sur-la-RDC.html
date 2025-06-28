@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz RDC - Testez vos connaissances sur la République Démocratique du Congo</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#007bff',secondary:'#ffc107'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Montserrat', sans-serif;
+}
+.map-container {
+position: relative;
+overflow: hidden;
+}
+.map-container::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: linear-gradient(135deg, rgba(0, 56, 184, 0.4), rgba(206, 17, 38, 0.4), rgba(245, 221, 0, 0.4));
+z-index: 1;
+pointer-events: none;
+}
+.countdown-animation {
+transition: width 1s linear;
+}
+.option-button:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.option-button.correct {
+background-color: #4ade80;
+color: white;
+}
+.option-button.incorrect {
+background-color: #f87171;
+color: white;
+}
+.option-button.selected {
+border-color: #007bff;
+border-width: 2px;
+}
+input:focus, button:focus {
+outline: none;
+box-shadow: 0 0 0 2px #0e7bff;
+
+}
+.quiz-background {
+background: linear-gradient(135deg, rgba(0, 56, 184, 0.05) 0%, rgba(206, 17, 38, 0.05) 50%, rgba(245, 221, 0, 0.05) 100%);
+}
+.flag-colors {
+background: linear-gradient(to right, #0038B8 33.33%, #CE1126 33.33%, #CE1126 66.66%, #F5DD00 66.66%);
+}
+.timer-bar {
+transition: width 1s linear;
+}
+</style>
+</head>
+<body class="bg-white min-h-screen">
+<!-- Home Page -->
+<div id="home-page" class="min-h-screen flex flex-col">
+<header class="bg-white shadow-sm py-4">
+<div class="container mx-auto px-4 flex justify-between items-center">
+<h1 class="text-3xl font-['Pacifico'] text-primary">Quiz RDC</h1>
+<div class="flex items-center space-x-4">
+<a href="#contact" class="text-gray-700 hover:text-primary transition-colors flex items-center">
+<i class="ri-phone-line ri-lg mr-1"></i>
+<span>Contact</span>
+</a>
+</div>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+<div class="text-center mb-8">
+<h2 class="text-4xl font-bold text-gray-800 mb-4">Testez vos connaissances sur la RDC</h2>
+<p class="text-xl text-gray-600 max-w-2xl mx-auto">Découvrez l'histoire, la géographie, la culture et plus encore de la République Démocratique du Congo à travers ce quiz interactif.</p>
+</div>
+<div class="map-container w-full max-w-3xl h-[400px] rounded-lg shadow-lg mb-12 overflow-hidden relative">
+<img src="https://static.readdy.ai/image/d03bf7203aceb0a3f8cf68547751317e/d1f7c35667b2788918434f18f5312deb.jpeg" alt="Carte de la RDC" class="w-full h-full object-cover object-center">
+<div class="absolute inset-0 bg-gradient-to-r from-blue-900/30 via-red-700/30 to-yellow-400/30 z-10"></div>
+<div class="absolute bottom-4 left-4 z-20 text-white bg-black/50 px-4 py-2 rounded-lg">
+<p class="font-bold">République Démocratique du Congo</p>
+<p class="text-sm">Cliquez sur "Commencer" pour débuter le quiz</p>
+</div>
+</div>
+<button id="start-quiz" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-button text-xl shadow-lg transform transition hover:scale-105 !rounded-button whitespace-nowrap">
+Commencer le Quiz
+</button>
+</main>
+<section id="contact" class="bg-gray-50 py-12">
+<div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+<div class="md:w-1/2 mb-8 md:mb-0">
+<h3 class="text-2xl font-bold text-gray-800 mb-4">Contactez-moi</h3>
+<p class="text-gray-600 mb-6">Vous avez des questions ou des suggestions pour améliorer ce quiz? N'hésitez pas à me contacter.</p>
+<div class="flex items-center mb-4">
+<div class="w-10 h-10 flex items-center justify-center bg-green-500 text-white rounded-full mr-3">
+<i class="ri-whatsapp-line ri-lg"></i>
+</div>
+<div>
+<p class="font-medium">WhatsApp</p>
+<p class="text-gray-600">0846839638</p>
+</div>
+</div>
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-full mr-3">
+<i class="ri-mail-line ri-lg"></i>
+</div>
+<div>
+<p class="font-medium">Email</p>
+<p class="text-gray-600">douglaskilenga@gmail.com</p>
+</div>
+</div>
+</div>
+<div class="md:w-1/3 flex flex-col items-center">
+<div class="w-40 h-40 rounded-full overflow-hidden border-4 border-primary mb-4 shadow-lg">
+<img src="https://static.readdy.ai/image/d03bf7203aceb0a3f8cf68547751317e/844a10108d137cb1d8676473b5873c14.jpeg" alt="KILENGA MUTABIRI DOUGLAS" class="w-full h-full object-cover">
+</div>
+<h4 class="text-xl font-bold text-center">KILENGA MUTABIRI DOUGLAS</h4>
+<p class="text-gray-600 text-center">Créateur du Quiz RDC</p>
+</div>
+</div>
+</section>
+<footer class="bg-gray-800 text-white py-6">
+<div class="container mx-auto px-4 text-center">
+<p>© 2025 Quiz RDC. Tous droits réservés.</p>
+<p class="text-sm mt-2 text-gray-400">Développé avec passion pour promouvoir la culture congolaise.</p>
+</div>
+</footer>
+</div>
+<!-- Quiz Page -->
+<div id="quiz-page" class="min-h-screen quiz-background hidden flex flex-col">
+<header class="bg-white shadow-sm py-4">
+<div class="container mx-auto px-4 flex justify-between items-center">
+<h1 class="text-3xl font-['Pacifico'] text-primary">Quiz RDC</h1>
+<div class="flex items-center space-x-2">
+<span id="question-counter" class="font-medium text-gray-700">Question 1/10</span>
+</div>
+</div>
+</header>
+<div class="w-full bg-gray-200 h-2">
+<div id="timer-bar" class="timer-bar bg-primary h-full w-full"></div>
+</div>
+<main class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+<div class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-8">
+<div class="mb-2">
+<span id="question-category" class="inline-block bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">Géographie</span>
+</div>
+<h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-6">Quelle est la capitale de la République Démocratique du Congo?</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<button class="option-button bg-white border border-gray-300 hover:border-primary text-gray-800 font-medium py-3 px-4 rounded-button transition-all !rounded-button whitespace-nowrap" data-index="0">Kinshasa</button>
+<button class="option-button bg-white border border-gray-300 hover:border-primary text-gray-800 font-medium py-3 px-4 rounded-button transition-all !rounded-button whitespace-nowrap" data-index="1">Lubumbashi</button>
+<button class="option-button bg-white border border-gray-300 hover:border-primary text-gray-800 font-medium py-3 px-4 rounded-button transition-all !rounded-button whitespace-nowrap" data-index="2">Kisangani</button>
+<button class="option-button bg-white border border-gray-300 hover:border-primary text-gray-800 font-medium py-3 px-4 rounded-button transition-all !rounded-button whitespace-nowrap" data-index="3">Goma</button>
+</div>
+<div id="feedback" class="mt-6 p-4 rounded-lg hidden"></div>
+<div class="mt-8 flex justify-between">
+<div>
+<span id="timer" class="text-xl font-bold">20</span>
+<span class="text-gray-600">secondes</span>
+</div>
+<button id="next-question" class="bg-primary hover:bg-primary/90 text-white font-bold py-2 px-6 rounded-button hidden !rounded-button whitespace-nowrap">Question suivante</button>
+</div>
+</div>
+</main>
+</div>
+<!-- Results Page -->
+<div id="results-page" class="min-h-screen quiz-background hidden flex flex-col">
+<header class="bg-white shadow-sm py-4">
+<div class="container mx-auto px-4 flex justify-between items-center">
+<h1 class="text-3xl font-['Pacifico'] text-primary">Quiz RDC</h1>
+</div>
+</header>
+<main class="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+<div class="w-full max-w-3xl bg-white rounded-lg shadow-lg p-8 text-center">
+<h2 class="text-3xl font-bold text-gray-800 mb-4">Résultats du Quiz</h2>
+<div class="mb-8">
+<div class="text-6xl font-bold text-primary mb-2"><span id="score">0</span>/10</div>
+<p id="score-message" class="text-xl text-gray-600">Vous pouvez faire mieux!</p>
+</div>
+<div class="mb-8">
+<h3 class="text-xl font-bold text-gray-800 mb-4">Partagez vos résultats</h3>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="social-share-btn flex items-center justify-center gap-2 bg-black text-white py-2 px-4 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-twitter-x-line ri-lg"></i>
+<span>X</span>
+</button>
+<button class="social-share-btn flex items-center justify-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-instagram-line ri-lg"></i>
+<span>Instagram</span>
+</button>
+<button class="social-share-btn flex items-center justify-center gap-2 bg-yellow-400 text-white py-2 px-4 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-snapchat-line ri-lg"></i>
+<span>Snapchat</span>
+</button>
+<button class="social-share-btn flex items-center justify-center gap-2 bg-green-500 text-white py-2 px-4 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-whatsapp-line ri-lg"></i>
+<span>WhatsApp</span>
+</button>
+<button class="social-share-btn flex items-center justify-center gap-2 bg-blue-500 text-white py-2 px-4 rounded-button !rounded-button whitespace-nowrap">
+<i class="ri-telegram-line ri-lg"></i>
+<span>Telegram</span>
+</button>
+</div>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button id="replay-quiz" class="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-6 rounded-button !rounded-button whitespace-nowrap">Rejouer</button>
+<button id="back-to-home" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-button !rounded-button whitespace-nowrap">Retour à l'accueil</button>
+</div>
+</div>
+</main>
+</div>
+<script id="quiz-data">
+document.addEventListener('DOMContentLoaded', function() {
+const quizData = [
+{
+category: "Géographie",
+question: "Quelle chaîne de montagnes se trouve à l'est de la RDC, près de la frontière avec l'Ouganda?",
+options: ["Les montagnes du Drakensberg", "Les monts de l'Atlas", "Les monts Mitumba", "Les montagnes Rwenzori"],
+correctAnswer: 3
+},
+{
+category: "Géographie",
+question: "Combien de provinces compte la RDC depuis le découpage territorial de 2015?",
+options: ["11", "21", "26", "30"],
+correctAnswer: 2
+},
+{
+category: "Géographie",
+question: "Quelle ville congolaise est la plus peuplée après Kinshasa?",
+options: ["Kananga", "Kisangani", "Lubumbashi", "Bukavu"],
+correctAnswer: 2
+},
+{
+category: "Histoire",
+question: "En quelle année la RDC a-t-elle obtenu son indépendance de la Belgique?",
+options: ["1958", "1960", "1962", "1965"],
+correctAnswer: 1
+},
+{
+category: "Politique",
+question: "Qui était le premier Premier ministre de la RDC après l'indépendance?",
+options: ["Joseph Kasa-Vubu", "Mobutu Sese Seko", "Patrice Lumumba", "Laurent-Désiré Kabila"],
+correctAnswer: 2
+},
+{
+category: "Géographie",
+question: "Quel est le plus grand fleuve d'Afrique qui traverse la RDC?",
+options: ["Le Nil", "Le Congo", "Le Zambèze", "Le Niger"],
+correctAnswer: 1
+},
+{
+category: "Culture",
+question: "Quelle est la langue officielle de la RDC?",
+options: ["Lingala", "Swahili", "Kikongo", "Français"],
+correctAnswer: 3
+},
+{
+category: "Économie",
+question: "Pour quelle ressource naturelle la RDC est-elle particulièrement connue?",
+options: ["Diamants", "Pétrole", "Coltan", "Café"],
+correctAnswer: 2
+},
+{
+category: "Gastronomie",
+question: "Quel est le plat national le plus connu de la RDC?",
+options: ["Fufu et Pondu", "Moambe", "Liboke", "Makemba"],
+correctAnswer: 1
+},
+{
+category: "Histoire",
+question: "Comment s'appelait la RDC pendant la période de 1971 à 1997?",
+options: ["Congo belge", "République du Congo", "Zaïre", "République populaire du Congo"],
+correctAnswer: 2
+}
+];
+return quizData;
+});
+</script>
+<script id="quiz-functionality">
+document.addEventListener('DOMContentLoaded', function() {
+const quizDataScript = document.getElementById('quiz-data');
+const quizData = eval(`(${quizDataScript.textContent.match(/const quizData = (.*?);/s)[1]})`);
+const homePage = document.getElementById('home-page');
+const quizPage = document.getElementById('quiz-page');
+const resultsPage = document.getElementById('results-page');
+const startQuizBtn = document.getElementById('start-quiz');
+const questionCounter = document.getElementById('question-counter');
+const questionCategory = document.getElementById('question-category');
+const questionText = document.getElementById('question-text');
+const optionButtons = document.querySelectorAll('.option-button');
+const nextQuestionBtn = document.getElementById('next-question');
+const timerElement = document.getElementById('timer');
+const timerBar = document.getElementById('timer-bar');
+const feedback = document.getElementById('feedback');
+const scoreElement = document.getElementById('score');
+const scoreMessage = document.getElementById('score-message');
+const replayQuizBtn = document.getElementById('replay-quiz');
+const backToHomeBtn = document.getElementById('back-to-home');
+const socialShareBtns = document.querySelectorAll('.social-share-btn');
+let currentQuestion = 0;
+let score = 0;
+let timer;
+let timeLeft = 20;
+let hasAnswered = false;
+// Start Quiz
+startQuizBtn.addEventListener('click', function() {
+homePage.classList.add('hidden');
+quizPage.classList.remove('hidden');
+loadQuestion();
+startTimer();
+});
+// Load Question
+function loadQuestion() {
+const question = quizData[currentQuestion];
+questionCounter.textContent = `Question ${currentQuestion + 1}/10`;
+questionCategory.textContent = question.category;
+questionText.textContent = question.question;
+optionButtons.forEach((button, index) => {
+button.textContent = question.options[index];
+button.classList.remove('correct', 'incorrect', 'selected');
+button.disabled = false;
+});
+nextQuestionBtn.classList.add('hidden');
+feedback.classList.add('hidden');
+hasAnswered = false;
+timeLeft = 20;
+timerElement.textContent = timeLeft;
+timerBar.style.width = '100%';
+}
+// Start Timer
+function startTimer() {
+clearInterval(timer);
+timeLeft = 20;
+timerElement.textContent = timeLeft;
+timerBar.style.width = '100%';
+timer = setInterval(function() {
+timeLeft--;
+timerElement.textContent = timeLeft;
+timerBar.style.width = (timeLeft / 20 * 100) + '%';
+if (timeLeft <= 0) {
+clearInterval(timer);
+if (!hasAnswered) {
+checkAnswer(-1); // Timeout, no answer selected
+}
+}
+}, 1000);
+}
+// Check Answer
+function checkAnswer(selectedIndex) {
+clearInterval(timer);
+hasAnswered = true;
+const correctIndex = quizData[currentQuestion].correctAnswer;
+optionButtons.forEach(button => {
+button.disabled = true;
+});
+if (selectedIndex === correctIndex) {
+score++;
+feedback.textContent = "Correct! Bien joué!";
+feedback.classList.remove('hidden', 'bg-red-100', 'text-red-700');
+feedback.classList.add('bg-green-100', 'text-green-700');
+} else {
+feedback.textContent = selectedIndex === -1
+? "Temps écoulé! La bonne réponse était: " + quizData[currentQuestion].options[correctIndex]
+: "Incorrect! La bonne réponse était: " + quizData[currentQuestion].options[correctIndex];
+feedback.classList.remove('hidden', 'bg-green-100', 'text-green-700');
+feedback.classList.add('bg-red-100', 'text-red-700');
+}
+if (selectedIndex !== -1) {
+optionButtons[selectedIndex].classList.add(selectedIndex === correctIndex ? 'correct' : 'incorrect');
+}
+optionButtons[correctIndex].classList.add('correct');
+feedback.classList.remove('hidden');
+nextQuestionBtn.classList.remove('hidden');
+}
+// Option Button Click
+optionButtons.forEach((button, index) => {
+button.addEventListener('click', function() {
+if (!hasAnswered) {
+button.classList.add('selected');
+checkAnswer(index);
+}
+});
+});
+// Next Question
+nextQuestionBtn.addEventListener('click', function() {
+currentQuestion++;
+if (currentQuestion < quizData.length) {
+loadQuestion();
+startTimer();
+} else {
+showResults();
+}
+});
+// Show Results
+function showResults() {
+quizPage.classList.add('hidden');
+resultsPage.classList.remove('hidden');
+scoreElement.textContent = score;
+if (score <= 3) {
+scoreMessage.textContent = "Vous pouvez faire mieux! Réessayez pour améliorer votre score.";
+} else if (score <= 6) {
+scoreMessage.textContent = "Pas mal! Vous avez des connaissances sur la RDC.";
+} else if (score <= 9) {
+scoreMessage.textContent = "Très bien! Vous connaissez bien la RDC!";
+} else {
+scoreMessage.textContent = "Parfait! Vous êtes un expert de la RDC!";
+}
+}
+// Replay Quiz
+replayQuizBtn.addEventListener('click', function() {
+currentQuestion = 0;
+score = 0;
+resultsPage.classList.add('hidden');
+quizPage.classList.remove('hidden');
+loadQuestion();
+startTimer();
+});
+// Back to Home
+backToHomeBtn.addEventListener('click', function() {
+currentQuestion = 0;
+score = 0;
+resultsPage.classList.add('hidden');
+homePage.classList.remove('hidden');
+});
+// Social Share
+socialShareBtns.forEach(button => {
+button.addEventListener('click', function() {
+const platform = button.querySelector('span').textContent;
+const message = `J'ai obtenu ${score}/10 au Quiz RDC! Pouvez-vous faire mieux?`;
+const url = window.location.href;
+let shareUrl;
+switch(platform) {
+case 'X':
+shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}&url=${encodeURIComponent(url)}`;
+break;
+case 'WhatsApp':
+shareUrl = `https://wa.me/?text=${encodeURIComponent(message + ' ' + url)}`;
+break;
+case 'Telegram':
+shareUrl = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(message)}`;
+break;
+default:
+alert(`Partage sur ${platform} - Message: ${message}`);
+return;
+}
+if (shareUrl) {
+window.open(shareUrl, '_blank');
+}
+});
+});
+});
+</script>
+</body>
+</html>
